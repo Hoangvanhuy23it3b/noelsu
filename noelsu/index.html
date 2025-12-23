@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Giáng Sinh Lung Linh - Gửi chị SuSu</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Mountains+of+Christmas:wght@700&family=Quicksand:wght@600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #d42426;
+            --gold: #ffd700;
+            --neon-green: #39ff14;
+            --glass-bg: rgba(20, 30, 48, 0.85);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body,
+        html {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+            background: #000;
+            color: #fff;
+        }
+
+        /* --- BACKGROUND & SCENE --- */
+        .bg-layer {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .aurora-sky {
+            background: linear-gradient(to bottom, #020111 10%, #203a43 60%, #2c5364 100%);
+        }
+
+        .aurora-lights {
+            background: radial-gradient(ellipse at top, rgba(57, 255, 20, 0.2), transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(255, 0, 128, 0.2), transparent 50%);
+            filter: blur(60px);
+            animation: auroraShift 20s infinite alternate;
+        }
+
+        @keyframes auroraShift {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1.2) rotate(5deg);
+            }
+        }
+
+        .moon {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #fdfcdc;
+            border-radius: 50%;
+            box-shadow: 0 0 30px #fdfcdc, 0 0 60px #fff;
+        }
+
+        .snowflake {
+            position: fixed;
+            color: #fff;
+            top: -20px;
+            z-index: 1;
+            pointer-events: none;
+            user-select: none;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(105vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .snow-ground {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0px;
+            background: linear-gradient(to top, #e6e9f0 0%, #eef1f5 100%);
+            border-radius: 50% 50% 0 0 / 30px 30px 0 0;
+            box-shadow: 0 -10px 20px rgba(255, 255, 255, 0.5);
+            z-index: 2;
+            animation: accumulateSnow 60s linear forwards;
+        }
+
+        @keyframes accumulateSnow {
+            to {
+                height: 100px;
+            }
+        }
+
+        /* --- HEADER & MAIN CARD --- */
+        header {
+            text-align: center;
+            padding-top: 20px;
+            z-index: 10;
+            position: relative;
+            width: 100%;
+        }
+
+        header h1 {
+            font-family: 'Mountains of Christmas', cursive;
+            font-size: 3rem;
+            color: var(--gold);
+            text-shadow: 0 0 10px var(--primary), 0 0 30px var(--gold);
+        }
+
+        header p {
+            font-size: 1.1rem;
+            margin-top: 5px;
+            opacity: 0.9;
+        }
+
+        .main-card {
+            position: absolute;
+            top: 55%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 400px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 25px 20px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            z-index: 10;
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .main-card.fade-out {
+            opacity: 0;
+            pointer-events: none;
+            transform: translate(-50%, -40%);
+        }
+
+        .tree-svg {
+            width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+            transition: 0.5s;
+        }
+
+        .tree-off {
+            filter: grayscale(1) brightness(0.5) drop-shadow(0 0 5px rgba(255, 255, 255, 0.2));
+        }
+
+        .tree-on {
+            filter: drop-shadow(0 0 15px var(--neon-green)) drop-shadow(0 0 30px var(--gold));
+            animation: treeGlow 2s infinite alternate;
+        }
+
+        @keyframes treeGlow {
+            from {
+                filter: drop-shadow(0 0 10px var(--neon-green));
+            }
+
+            to {
+                filter: drop-shadow(0 0 25px var(--neon-green)) drop-shadow(0 0 40px var(--gold));
+            }
+        }
+
+        .controls-row {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .control-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 12px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .control-btn:hover,
+        .control-btn.active {
+            background: var(--gold);
+            color: #000;
+            box-shadow: 0 0 15px var(--gold);
+        }
+
+        .control-btn.muted {
+            opacity: 0.6;
+            border-color: #999;
+            color: #ccc;
+        }
+
+        .start-btn {
+            background: linear-gradient(45deg, var(--primary), #ff6b6b);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 5px 20px rgba(212, 36, 38, 0.5);
+            transition: 0.3s;
+            animation: pulseBtn 2s infinite;
+            width: 80%;
+        }
+
+        .start-btn:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulseBtn {
+            0% {
+                box-shadow: 0 0 0 0 rgba(212, 36, 38, 0.7);
+            }
+
+            70% {
+                box-shadow: 0 0 0 15px rgba(212, 36, 38, 0);
+            }
+
+            100% {
+                box-shadow: 0 0 0 0 rgba(212, 36, 38, 0);
+            }
+        }
+
+        /* --- SANTA ANIMATION --- */
+        .santa-container {
+            position: fixed;
+            top: 15%;
+            left: -300px;
+            z-index: 20;
+            pointer-events: none;
+            width: 200px;
+        }
+
+        .santa-img {
+            width: 100%;
+            height: auto;
+            filter: drop-shadow(0 10px 10px rgba(0, 0, 0, 0.5));
+        }
+
+        .envelope-img {
+            position: fixed;
+            top: 50%;
+            left: 40%;
+            width: 25%;
+            height: auto;
+            opacity: 0;
+            z-index: 19;
+        }
+
+        .santa-fly-in {
+            animation: santaMove 5s linear forwards;
+        }
+
+        @keyframes santaMove {
+            0% {
+                left: -300px;
+                transform: translateY(0) rotate(5deg);
+            }
+
+            25% {
+                transform: translateY(30px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(0) rotate(-5deg);
+            }
+
+            75% {
+                transform: translateY(-30px) rotate(0deg);
+            }
+
+            100% {
+                left: 120%;
+                transform: translateY(0) rotate(5deg);
+            }
+        }
+
+        .envelope-drop {
+            animation: dropLetter 2s ease-in-out forwards;
+        }
+
+        @keyframes dropLetter {
+            0% {
+                opacity: 1;
+                top: 15%;
+                left: 50%;
+                transform: translate(-50%, 0) scale(0.5) rotate(0deg);
+            }
+
+            50% {
+                transform: translate(-50%, 200px) rotate(360deg) scale(1);
+            }
+
+            100% {
+                opacity: 0;
+                top: 55%;
+                left: 50%;
+                transform: translate(-50%, 0) scale(0.1);
+            }
+        }
+
+        /* --- PHOTO EXPLOSION EFFECT (NEW) --- */
+        .pop-photo {
+            position: fixed;
+            width: 100px;
+            height: 100px;
+            /* Kích thước ảnh bay ra */
+            object-fit: cover;
+            border-radius: 10px;
+            border: 3px solid #fff;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            z-index: 200;
+            /* Hiển thị trên cùng */
+            opacity: 0;
+            pointer-events: none;
+            transition: transform 1s ease-out, opacity 1s ease-in;
+        }
+
+        /* --- MODAL (Quiz & Letter) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.4s;
+            padding: 20px;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        .modal-box {
+            background: #fffbf0;
+            color: #333;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            border: 4px solid var(--primary);
+            display: none;
+            transform: scale(0.9);
+            transition: 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-box.active {
+            display: block;
+            transform: scale(1);
+        }
+
+        .quiz-question {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            font-weight: bold;
+            line-height: 1.4;
+        }
+
+        .quiz-option {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: #fff;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.2s;
+            font-size: 1rem;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .quiz-option:hover {
+            background: #fff5f5;
+        }
+
+        .quiz-option.correct {
+            background: #2ecc71;
+            color: white;
+            border-color: #2ecc71;
+        }
+
+        .quiz-option.wrong {
+            background: #e74c3c;
+            color: white;
+            border-color: #e74c3c;
+            animation: shake 0.4s;
+        }
+
+        @keyframes shake {
+
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+
+            25% {
+                transform: translateX(-10px);
+            }
+
+            75% {
+                transform: translateX(10px);
+            }
+        }
+
+        /* --- LETTER CONTENT --- */
+        .letter-content {
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem;
+            line-height: 1.6;
+            text-align: justify;
+            max-height: 40vh;
+            overflow-y: auto;
+            padding: 15px;
+            background: url('https://www.transparenttextures.com/patterns/snow.png'), #fff;
+            color: #2c3e50;
+            white-space: pre-wrap;
+            border-radius: 10px;
+            border: 1px dashed var(--gold);
+        }
+
+        /* --- MOBILE TWEAKS --- */
+        @media screen and (max-width: 600px) {
+            header h1 {
+                font-size: 2.2rem;
+            }
+
+            .moon {
+                width: 40px;
+                height: 40px;
+                top: 15px;
+                right: 15px;
+            }
+
+            .main-card {
+                width: 95%;
+                padding: 20px 15px;
+            }
+
+            .tree-svg {
+                width: 100px;
+            }
+
+            .start-btn {
+                padding: 12px 20px;
+                font-size: 1rem;
+            }
+
+            .santa-container {
+                width: 140px;
+                top: 20%;
+            }
+
+            .letter-content {
+                font-size: 1.15rem;
+                line-height: 1.5;
+                padding: 10px;
+            }
+
+            .pop-photo {
+                width: 80px;
+                height: 80px;
+            }
+
+            /* Ảnh bay ra nhỏ hơn trên mobile */
+        }
+
+        @media screen and (max-height: 500px) {
+            header {
+                display: none;
+            }
+
+            .main-card {
+                top: 50%;
+                transform: translate(-50%, -50%);
+                padding: 10px;
+            }
+
+            .tree-svg {
+                width: 60px;
+                margin-bottom: 5px;
+            }
+
+            .modal-box {
+                padding: 10px;
+            }
+
+            #letterSection img {
+                display: none;
+            }
+
+            .letter-content {
+                max-height: 150px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-layer aurora-sky"></div>
+    <div class="bg-layer aurora-lights"></div>
+    <div class="moon"></div>
+    <div class="snow-ground"></div>
+
+    <audio id="bgMusic" src="music/christmas-background-music-179637.mp3" loop></audio>
+
+    <div class="santa-container" id="santaContainer">
+        <img src="images/onggia.png" class="santa-img" alt="Santa Claus">
+    </div>
+    <img src="images/image.png" id="flyingEnvelope" class="envelope-img"
+        alt="Letter" style="display:none;">
+
+    <header>
+        <h1>Giáng Sinh Lung Linh</h1>
+        <p>Gửi chị SuSu của em!</p>
+    </header>
+
+    <div class="main-card" id="mainCardUI">
+        <svg class="tree-svg tree-off" id="neonTree" viewBox="0 0 100 160" xmlns="http://www.w3.org/2000/svg">
+            <path d="M50 10 L20 60 H40 L10 110 H30 L0 160 H100 L70 110 H90 L60 60 H80 Z" fill="#2ecc71" stroke="#27ae60"
+                stroke-width="2" />
+            <rect x="45" y="160" width="10" height="20" fill="#8e44ad" />
+            <circle cx="50" cy="10" r="8" fill="gold" />
+            <circle cx="30" cy="70" r="5" fill="red" />
+            <circle cx="70" cy="80" r="5" fill="blue" />
+            <circle cx="40" cy="120" r="5" fill="gold" />
+            <circle cx="60" cy="140" r="5" fill="red" />
+        </svg>
+
+        <div class="controls-row">
+            <button class="control-btn muted" id="musicBtn">🎵 Bật Nhạc</button>
+            <button class="control-btn" id="treeBtn">💡 Bật Đèn</button>
+        </div>
+
+        <h2 style="margin-bottom: 10px; font-size: 1.2rem;">Có đôi lời từ em gấu</h2>
+        <button class="start-btn" id="startQuizBtn">🎁 Mở đi nè</button>
+    </div>
+
+    <div class="modal-overlay" id="mainModal">
+        <div class="modal-box" id="quizSection">
+            <h3 style="color:#999; font-size:0.9rem; margin-bottom:15px;">Trả lời đúng để mở quà nà</h3>
+            <div class="quiz-question" id="qText">Loading...</div>
+            <div id="qOptions"></div>
+            <div id="feedbackMsg"
+                style="min-height: 25px; color: var(--primary); font-weight: bold; margin-top: 10px; font-size: 0.95rem;">
+            </div>
+        </div>
+
+        <div class="modal-box" id="letterSection">
+            <h2
+                style="font-family: 'Mountains of Christmas'; color: var(--primary); font-size: 2rem; margin-bottom: 10px;">
+                🎉 MERRY CHRISTMAS! 🎉</h2>
+            <img src="images/em.png"
+                style="width:100%; height:auto; max-height:250px; object-fit:cover; border-radius:10px; margin-bottom:15px; border: 3px solid white; box-shadow: 0 5px 15px rgba(0,0,0,0.2);">
+            <div class="letter-content" id="typewriterText"></div>
+            <button class="control-btn active"
+                style="margin: 15px auto 0; background: var(--primary); color: white; border:none; padding: 10px 25px;"
+                onclick="closeAllModals()">❤️ Hết ròi ❤️</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        /* --- 1. SETUP UI --- */
+        const musicBtn = document.getElementById('musicBtn');
+        const treeBtn = document.getElementById('treeBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const neonTree = document.getElementById('neonTree');
+        const santaContainer = document.getElementById('santaContainer');
+        const flyingEnvelope = document.getElementById('flyingEnvelope');
+        const mainCardUI = document.getElementById('mainCardUI');
+
+        let isMusicPlaying = false;
+        let isTreeOn = false;
+
+        musicBtn.addEventListener('click', () => {
+            if (isMusicPlaying) {
+                bgMusic.pause(); musicBtn.innerHTML = "🎵 Bật Nhạc";
+                musicBtn.classList.add('muted'); musicBtn.classList.remove('active');
+            } else {
+                bgMusic.play().then(() => {
+                    musicBtn.innerHTML = "🔊 Tắt Nhạc"; musicBtn.classList.remove('muted'); musicBtn.classList.add('active');
+                }).catch(e => alert("Chạm lại để phát nhạc nhé!"));
+            }
+            isMusicPlaying = !isMusicPlaying;
+        });
+
+        treeBtn.addEventListener('click', () => {
+            isTreeOn = !isTreeOn;
+            if (isTreeOn) {
+                neonTree.classList.remove('tree-off'); neonTree.classList.add('tree-on');
+                treeBtn.innerHTML = "💡 Tắt Đèn"; treeBtn.classList.add('active');
+            } else {
+                neonTree.classList.remove('tree-on'); neonTree.classList.add('tree-off');
+                treeBtn.innerHTML = "💡 Bật Đèn"; treeBtn.classList.remove('active');
+            }
+        });
+
+        function createSnowflake() {
+            const snow = document.createElement('div');
+            snow.className = 'snowflake';
+            snow.innerHTML = Math.random() > 0.6 ? '❄' : '•';
+            snow.style.left = Math.random() * 100 + 'vw';
+            const size = Math.random() * 10 + 5;
+            snow.style.fontSize = size + 'px';
+            snow.style.opacity = Math.random() * 0.7 + 0.3;
+            const duration = (30 - size) / 2 + Math.random() * 5;
+            snow.style.animationDuration = duration + 's';
+            document.body.appendChild(snow);
+            setTimeout(() => { snow.remove(); }, duration * 1000);
+        }
+        setInterval(createSnowflake, 300);
+
+        /* --- 2. CONFIGURATION (DỮ LIỆU CỦA BẠN) --- */
+        const questions = [
+            { q: "Chị có ghét Gấu không?", opts: ["Không", "Hơi hơi", "Không biết", "Rất ghét nhé"], a: 3 },
+            { q: "Mình là chị em tốt đúng hơm?", opts: ["không muốn vs mi", "k muốn làm chị em", "Cái khác", "Chị đồng ý hí hí"], a: 3 },
+            { q: "Gấu làm chị buồn zậy gấu có đau lòng không?", opts: ["Đau lém", "Hơi hơi", "Bình thường", "Không biết nữa"], a: 0 }
+        ];
+
+        const finalLetter = `Gửi chị SUSU dệ thưng!\n\nHo Ho Ho! 🎅 Chúc mừng chị SU đã xuất sắc trả lời đúng hết các câu hỏi của tui. Chứng tỏ là chị đồng ý rùi đó nghen (hihi).\n\nGiáng Sinh đến rồi, em Gấu chúc chị yêu luôn xinh đẹp, rạng rỡ và cười thật nhiều. Chúc chị luôn hạnh phúc, tình duyên mượt như lụa, sớm gặp được người siêu tốt với chị và mãi rạng ngời nhé.\n\nMong mọi điều tốt đẹp nhất sẽ đến với SUSU, và luôn thật tươi nhen. Mong chuyện cũ mình bỏ qua, với mối quan hệ mới, chúc chị mọi điều thật tốt lành.\n\nCảm ơn em nhé, chị xứng đáng với nhiều điều tốt đẹp lắm đó! Iu iu! Merry Christmas! 🎄🎁❤️`;
+
+        // --- DANH SÁCH ẢNH BAY RA KHI TRẢ LỜI ĐÚNG ---
+        // Bạn hãy thay thế các link trong ngoặc '...' bằng link ảnh thật của bạn nhé!
+        // Nếu chưa có ảnh thì cứ để nguyên link demo này nó vẫn chạy đẹp.
+        const celebrationImages = [
+            '', // Ảnh 1 (Ví dụ icon ông già Noel)
+            'images/ngonqua.png', // Ảnh 2
+            'images/su.png', // Ảnh 3
+            'images/hoiae.png',   // Ảnh 4
+            'images/khai.png', // Ảnh 5
+            'images/em.png', // Bạn có thể thêm link ảnh thật của chị SuSu vào đây
+            'images/chidep.png',
+            'images/nyc.png'
+        ];
+
+
+        /* --- 3. LOGIC --- */
+        let currentQIdx = 0;
+        const mainModal = document.getElementById('mainModal');
+        const quizSection = document.getElementById('quizSection');
+        const letterSection = document.getElementById('letterSection');
+        const qText = document.getElementById('qText');
+        const qOptions = document.getElementById('qOptions');
+        const feedbackMsg = document.getElementById('feedbackMsg');
+        const typewriterText = document.getElementById('typewriterText');
+
+        document.getElementById('startQuizBtn').addEventListener('click', () => {
+            mainModal.classList.add('active');
+            quizSection.classList.add('active');
+            loadQuestion();
+            if (!isMusicPlaying) musicBtn.click();
+            if (!isTreeOn) treeBtn.click();
+        });
+
+        function loadQuestion() {
+            if (currentQIdx >= questions.length) { startDeliveryAnimation(); return; }
+            const data = questions[currentQIdx];
+            qText.innerText = `Câu ${currentQIdx + 1}/${questions.length}: ${data.q}`;
+            qOptions.innerHTML = '';
+            feedbackMsg.innerText = '';
+            data.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'quiz-option'; btn.innerText = opt;
+                btn.onclick = () => checkAnswer(btn, idx, data.a);
+                qOptions.appendChild(btn);
+            });
+        }
+
+        function checkAnswer(btn, selected, correct) {
+            if (selected === correct) {
+                btn.classList.add('correct');
+                feedbackMsg.innerText = "Chính xác! Giỏi quá đi!";
+
+                // ===> KÍCH HOẠT HIỆU ỨNG ẢNH BAY RA <===
+                triggerPhotoExplosion();
+
+                setTimeout(() => { currentQIdx++; loadQuestion(); }, 1200); // Tăng thời gian chờ lên chút để ngắm ảnh
+            } else {
+                btn.classList.add('wrong');
+                feedbackMsg.innerText = "Sai rồi nè! Chọn lại đi chị ơi ^^";
+                if (navigator.vibrate) navigator.vibrate(200);
+            }
+        }
+
+        // --- HÀM TẠO HIỆU ỨNG ẢNH BAY TUNG TÓE ---
+        function triggerPhotoExplosion() {
+            // Lấy số lượng ảnh muốn bay ra (ví dụ 6 cái)
+            const count = 6;
+
+            for (let i = 0; i < count; i++) {
+                const img = document.createElement('img');
+
+                // Lấy ngẫu nhiên 1 ảnh trong danh sách bạn đã cài
+                const randomSrc = celebrationImages[Math.floor(Math.random() * celebrationImages.length)];
+                img.src = randomSrc;
+                img.className = 'pop-photo';
+
+                // Đặt vị trí xuất phát là giữa màn hình
+                img.style.left = '50%';
+                img.style.top = '50%';
+                img.style.transform = 'translate(-50%, -50%) scale(0)'; // Bắt đầu nhỏ xíu
+
+                document.body.appendChild(img);
+
+                // Tính toán hướng bay ngẫu nhiên
+                // Random góc từ 0 đến 360 độ
+                const angle = Math.random() * Math.PI * 2;
+                // Random khoảng cách bay (từ 100px đến 300px)
+                const distance = 100 + Math.random() * 200;
+
+                const x = Math.cos(angle) * distance;
+                const y = Math.sin(angle) * distance;
+                const randomRotate = Math.random() * 60 - 30; // Xoay nhẹ ảnh
+
+                // Kích hoạt animation
+                setTimeout(() => {
+                    img.style.opacity = '1';
+                    img.style.transform = `translate(calc(-50% + ${x}px), calc(-50% + ${y}px)) rotate(${randomRotate}deg) scale(1)`;
+                }, 10);
+
+                // Sau 1.2 giây thì làm mờ và xóa đi
+                setTimeout(() => {
+                    img.style.opacity = '0';
+                    setTimeout(() => img.remove(), 1000);
+                }, 1000);
+            }
+        }
+
+        // --- ANIMATION ÔNG GIÀ NOEL & THƯ ---
+        function startDeliveryAnimation() {
+            quizSection.classList.remove('active');
+            mainModal.classList.remove('active');
+            mainCardUI.classList.add('fade-out');
+
+            santaContainer.classList.remove('santa-fly-in');
+            flyingEnvelope.classList.remove('envelope-drop');
+            flyingEnvelope.style.display = 'block';
+            void santaContainer.offsetWidth;
+
+            setTimeout(() => { santaContainer.classList.add('santa-fly-in'); }, 100);
+            setTimeout(() => { flyingEnvelope.classList.add('envelope-drop'); }, 1800);
+            setTimeout(() => {
+                mainCardUI.classList.remove('fade-out');
+                showLetter();
+            }, 3800);
+        }
+
+        function showLetter() {
+            mainModal.classList.add('active');
+            letterSection.classList.add('active');
+            flyingEnvelope.style.display = 'none';
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+
+            typewriterText.innerText = '';
+            let i = 0; const speed = 30;
+            function type() {
+                if (i < finalLetter.length) {
+                    typewriterText.innerText += finalLetter.charAt(i);
+                    i++;
+                    typewriterText.scrollTop = typewriterText.scrollHeight;
+                    setTimeout(type, speed);
+                }
+            }
+            type();
+        }
+
+        function closeAllModals() {
+            mainModal.classList.remove('active');
+            currentQIdx = 0; quizSection.classList.remove('active'); letterSection.classList.remove('active');
+            setTimeout(() => location.reload(), 500);
+        }
+    </script>
+</body>
+
+</html>
